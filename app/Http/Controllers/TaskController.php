@@ -19,7 +19,8 @@ class TaskController extends Controller
     public function index()
     {
         $tasks = Task::with('user')->latest()->get();
-        return view('tasks.index', compact('tasks'));
+        dd($tasks);
+        return view('dashboard', compact('tasks'));
     }
 
 
@@ -29,8 +30,6 @@ class TaskController extends Controller
      */
     public function create()
     {
-        // $users = User::all();
-        // $tasks = Task::all();
         return view('user-position.create', compact('users'));
 
         return view('tasks.create');

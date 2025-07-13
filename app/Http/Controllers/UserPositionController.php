@@ -19,10 +19,6 @@ class UserPositionController extends Controller
      */
     public function index()
     {
-        // $userPosition = UserPosition::with(['user_id', 'position_id'])
-        //     ->latest()
-        //     ->get();
-        // return view('user-position.index', compact('userPosition'));
         $users = User::all();
         $positions = Position::all();
         $userPositions = UserPosition::with(['user', 'position'])
