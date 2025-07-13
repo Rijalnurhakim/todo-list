@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Task;
+use App\Models\User;
 use App\Models\AuditLog;
 use Illuminate\View\View;
 use Illuminate\Http\Request;
@@ -17,8 +18,8 @@ class TaskController extends Controller
      */
     public function index()
     {
-        $task = Task::with('user')->latest()->get();
-        return view('tasks.index', compact('task'));
+        $tasks = Task::with('user')->latest()->get();
+        return view('tasks.index', compact('tasks'));
     }
 
 
@@ -28,6 +29,10 @@ class TaskController extends Controller
      */
     public function create()
     {
+        // $users = User::all();
+        // $tasks = Task::all();
+        return view('user-position.create', compact('users'));
+
         return view('tasks.create');
     }
 
@@ -36,6 +41,7 @@ class TaskController extends Controller
      */
     public function store(Request $request)
     {
+        // dd($request->all());
         $request->validate([
             'todo' => 'required|string',
         ]);
@@ -45,9 +51,38 @@ class TaskController extends Controller
             'user_id' => Auth::id(),
             'todo' => $request->todo,
         ]);
+        dd($request->all());
 
         return redirect()->route('tasks.index')->with('status', 'Task created successfully!');
     }
+
+    // public function store(Request $request)
+    // {
+    //     $request->validate([
+    //         'todo' => 'required|string',
+    //     ]);
+
+    //     $dataToCreate = [
+    //         'uuid' => (string) \Illuminate\Support\Str::uuid(),
+    //         'user_id' => Auth::user('uuid'),
+    //         'todo' => $request->todo,
+    //     ];
+
+    //     // Debug data sebelum create
+    //     dd([
+    //         'auth_info' => [
+    //             'id' => Auth::id(),
+    //             'user' => Auth::user(),
+    //         ],
+    //         'request_data' => $request->all(),
+    //         'data_to_create' => $dataToCreate,
+    //         'model_fillable' => (new Task())->getFillable(),
+    //         'user_id_type' => gettype(Auth::id()),
+    //     ]);
+
+    //     // Task::create($dataToCreate);
+    //     // return redirect()->route('tasks.index')->with('status', 'Task created successfully!');
+    // }
 
 
 
