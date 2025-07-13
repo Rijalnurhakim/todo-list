@@ -48,10 +48,10 @@ class TaskController extends Controller
 
         Task::create([
             'uuid' => (string) \Illuminate\Support\Str::uuid(),
-            'user_id' => Auth::id(),
+            'user_id' => Auth::user()->uuid,
             'todo' => $request->todo,
         ]);
-        dd($request->all());
+        // dd($request->all());
 
         return redirect()->route('tasks.index')->with('status', 'Task created successfully!');
     }
@@ -131,11 +131,9 @@ class TaskController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Request $request): RedirectResponse
+    public function destroy(Request $request, Task $task): RedirectResponse
     {
-        $task = Task::findOrFail($request->uuid);
-        $task->delete();
-
+        // $task = Task::findOrFail($request->uuid);
         AuditLog::create([
             'user_id' => Auth::id(),
             'action' => 'Task deleted',
@@ -143,6 +141,8 @@ class TaskController extends Controller
             'model_id' => $task->uuid,
             'changes' => json_encode($task->getChanges()),
         ]);
+        $task->delete();
+
 
         return redirect()->route('tasks.index')->with('status', 'Task deleted successfully!');
     }
