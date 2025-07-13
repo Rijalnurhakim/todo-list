@@ -100,7 +100,7 @@ class TaskController extends Controller
     public function edit(Task $task): View
     {
         return view('tasks.edit', [
-            'user' => $task,
+            'task' => $task,
         ]);
     }
 
@@ -113,6 +113,7 @@ class TaskController extends Controller
 
         if ($task->isDirty('todo')) {
             $task->save();
+            // dd($request->all());
 
             AuditLog::create([
                 'user_id' => Auth::id(),
@@ -125,7 +126,7 @@ class TaskController extends Controller
             return redirect()->route('tasks.index')->with('status', 'Task updated successfully!');
         }
 
-        return redirect()->route('tasks.edit')->with('status', 'No changes made.');
+        return redirect()->route('tasks.edit', $task->uuid)->with('status', 'No changes made.');
     }
 
     /**
