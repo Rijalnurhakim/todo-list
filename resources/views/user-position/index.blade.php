@@ -4,7 +4,7 @@
             {{ __('User Position') }}
         </h2>
     </x-slot>
-{{-- @dd($userPositions[0]->name) --}}
+{{-- @dd($userPositions[0]->position->name) --}}
     <div class="py-10">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
@@ -26,14 +26,15 @@
                                 </tr>
                             </thead>
                             <tbody class="divide-y divide-gray-200">
-                                @forelse($userPosition as $userPosition)
+                                @forelse($userPositions as $userPosition)
                                     <tr class="hover:bg-gray-50">
                                         <td class="px-6 py-4 whitespace-nowarp text-sm font-medium text-gray-900">{{ $loop->iteration }}</td>
-                                        <td class="px-6 py-4 whitespace-nowarp text-sm text-gray-700">{{ $userPosition->name }}</td>
+                                        <td class="px-6 py-4 whitespace-nowarp text-sm text-gray-700">{{ $userPosition->user->name }}</td>
+                                        <td class="px-6 py-4 whitespace-nowarp text-sm text-gray-700">{{ $userPosition->position->name }}</td>
                                         <td class="px-6 py-4 whitespace-nowarp text-sm text-gray-700 text-center">
                                             <div class="flex justify-center item-center space-x-2">
-                                                <a href="{{ route('user-position.edit', $position->uuid) }}" class="inline-flex items-center justify-center px-4 py-2 bg-blue-600 text-white rounded font-semibold rounded-md shadow-sm hover:bg-biru focus:outline-none focus:ring-blue-500 focus:ring-offset-2 transition ease-in-out duration-150 text-sm text-sm">Edit</a>
-                                                <form action="{{ route('user-position.destroy', $position->uuid) }}" method="POST" onsubmit="return confirm('Are you sure?');">
+                                                <a href="{{ route('user-position.edit', $userPosition->uuid) }}" class="inline-flex items-center justify-center px-4 py-2 bg-blue-600 text-white rounded font-semibold rounded-md shadow-sm hover:bg-biru focus:outline-none focus:ring-blue-500 focus:ring-offset-2 transition ease-in-out duration-150 text-sm text-sm">Edit</a>
+                                                <form action="{{ route('user-position.destroy', $userPosition->uuid) }}" method="POST" onsubmit="return confirm('Are you sure?');">
                                                     @csrf
                                                     @method('DELETE')
                                                     <button type="submit" class="inline-flex items-center px-4 py-2 bg-red-600 text-white font-semibold rounded-md shadow-sm hover:text-gray-200 hover:bg-oren focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset2 transition ease-in-out duration-150 text-sm">Delete</button>

@@ -15,8 +15,13 @@ class UserPosition extends Model
         'position_id',
     ];
 
-    // public function user()
-    // {
-    //     return $this->belongsTo(User::class, 'user_id', 'uuid');
-    // }
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'user_id', 'uuid');
+    }
+
+    public function position()
+    {
+        return $this->belongsTo(Position::class, 'position_id', 'uuid');
+    }
 }

@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use App\Models\AuditLog;
+use App\Models\Position;
 use Illuminate\View\View;
 use App\Models\UserPosition;
 use Illuminate\Http\Request;
@@ -17,10 +19,16 @@ class UserPositionController extends Controller
      */
     public function index()
     {
-        $userPosition = UserPosition::with(['user_id', 'position_id'])
+        // $userPosition = UserPosition::with(['user_id', 'position_id'])
+        //     ->latest()
+        //     ->get();
+        // return view('user-position.index', compact('userPosition'));
+        $users = User::all();
+        $positions = Position::all();
+        $userPositions = UserPosition::with(['user', 'position'])
             ->latest()
             ->get();
-        return view('user-position.index', compact('userPosition'));
+        return view('user-position.index', compact('users', 'positions', 'userPositions'));
     }
 
     /**
@@ -28,7 +36,9 @@ class UserPositionController extends Controller
      */
     public function create()
     {
-        return view('user-position.create');
+        $users = User::all();
+        $positions = Position::all();
+        return view('user-position.create', compact('users', 'positions'));
     }
 
     /**
@@ -95,19 +105,20 @@ class UserPositionController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Request $request): RedirectResponse
+    public function destroy(Request $request, UserPosition $userPosition): RedirectResponse
     {
-        $request->validate([
-            'user_id' => 'required|exists:users,uuid',
-            'position_id' => 'required|exists:positions,uuid',
-        ]);
-
-        $userPosition = UserPosition::where('user_id', $request->user_id)
-            ->where('position_id', $request->position_id)
-            ->firstOrFail();
-
+        // $request->validate([
+        //     'user_id' => 'required|exists:users,uuid',
+        //     'position_id' => 'required|exists:positions,uuid',
+        // ]);
         $userPosition->delete();
 
-        return redirect()->route('user-positions.index')->with('status', 'User Position deleted successfully!');
+        // $userPosition = UserPosition::where('user_id', $request->user_id)
+        // ->where('position_id', $request->position_id)
+        // ->firstOrFail();
+
+        // dd($userPosition->all());
+
+        return redirect()->route('user-position.index')->with('status', 'User Position deleted successfully!');
     }
 }
