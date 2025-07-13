@@ -71,10 +71,28 @@ class UserPositionController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(UserPosition $userPosition): View
+    // public function edit(UserPosition $userPosition): View
+    // {
+    //     $users = User::all();
+    //     $positions = Position::all();
+    //     $userPositions = UserPosition::all();
+    //     return view('user-position.edit', compact('users', 'positions', 'userPositions'));
+    // }
+
+    public function edit($uuid)
     {
+        // Gunakan with() untuk eager loading relasi
+        $userposition = UserPosition::with(['user', 'position'])
+            ->where('uuid', $uuid)
+            ->firstOrFail();
+
+        $users = User::all(); // Ambil semua user
+        $positions = Position::all(); // Ambil semua position
+
         return view('user-position.edit', [
-            'userPosition' => $userPosition,
+            'userposition' => $userposition, // Pastikan nama variabel sama dengan yang di view
+            'users' => $users,
+            'positions' => $positions
         ]);
     }
 
@@ -83,6 +101,7 @@ class UserPositionController extends Controller
      */
     public function update(UserPositionUpdateRequest $request, UserPosition $userPosition): RedirectResponse
     {
+        // dd($request->all());
         $userPosition->fill($request->validated());
 
         if ($userPosition->isDirty('user_id') || $userPosition->isDirty('position_id')) {
@@ -107,17 +126,8 @@ class UserPositionController extends Controller
      */
     public function destroy(Request $request, UserPosition $userPosition): RedirectResponse
     {
-        // $request->validate([
-        //     'user_id' => 'required|exists:users,uuid',
-        //     'position_id' => 'required|exists:positions,uuid',
-        // ]);
+
         $userPosition->delete();
-
-        // $userPosition = UserPosition::where('user_id', $request->user_id)
-        // ->where('position_id', $request->position_id)
-        // ->firstOrFail();
-
-        // dd($userPosition->all());
 
         return redirect()->route('user-position.index')->with('status', 'User Position deleted successfully!');
     }

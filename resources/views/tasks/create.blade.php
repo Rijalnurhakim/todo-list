@@ -51,5 +51,8 @@
             @endif
         </div>
     </form>
+    @if (session('status'))
+        <div>{{ session('status') }}</div>
+    @endif
 </section>
 
