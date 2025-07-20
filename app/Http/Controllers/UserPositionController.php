@@ -67,13 +67,6 @@ class UserPositionController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    // public function edit(UserPosition $userPosition): View
-    // {
-    //     $users = User::all();
-    //     $positions = Position::all();
-    //     $userPositions = UserPosition::all();
-    //     return view('user-position.edit', compact('users', 'positions', 'userPositions'));
-    // }
 
     public function edit($uuid)
     {

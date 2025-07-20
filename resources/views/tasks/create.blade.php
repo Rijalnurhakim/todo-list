@@ -10,13 +10,13 @@
         <div>
             <x-input-label for="taskname" :value="__('Task Name')" />
             <x-text-input id="taskname" name="todo" placeholder="Please write your task here......." type="text" class="mt-1 block w-full" required autofocus autocomplete="taskname" />
-            <x-input-error class="mt-2" :messages="$errors->get('taskname')" />
+            <x-input-error class="mt-2" :messages="$errors->get('todo')" />
         </div>
 
         <div class="flex items-center gap-4">
-            <x-primary-button>{{ __('Save') }}</x-primary-button>
+            <x-primary-button>{{ __('Add +') }}</x-primary-button>
 
-            @if (session('status') === 'profile-updated')
+            @if (session('status') === 'task-created')
                 <p
                     x-data="{ show: true }"
                     x-show="show"

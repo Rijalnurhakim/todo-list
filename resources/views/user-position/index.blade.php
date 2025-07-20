@@ -33,7 +33,7 @@
                                         <td class="px-6 py-4 whitespace-nowarp text-sm text-gray-700">{{ $userPosition->position->name }}</td>
                                         <td class="px-6 py-4 whitespace-nowarp text-sm text-gray-700 text-center">
                                             <div class="flex justify-center item-center space-x-2">
-                                                <a href="{{ route('user-position.edit', $userPosition->uuid) }}" class="inline-flex items-center justify-center px-4 py-2 bg-blue-600 text-white rounded font-semibold rounded-md shadow-sm hover:bg-biru focus:outline-none focus:ring-blue-500 focus:ring-offset-2 transition ease-in-out duration-150 text-sm text-sm">Edit</a>
+                                                <a href="{{ route('user-position.edit', $userPosition->uuid) }}" class="inline-flex items-center justify-center px-4 py-2 bg-biru text-white rounded font-semibold rounded-md shadow-sm hover:bg-blue-900 focus:outline-none focus:ring-blue-500 focus:ring-offset-2 transition ease-in-out duration-150 text-sm text-sm">Edit</a>
                                                 <form action="{{ route('user-position.destroy', $userPosition->uuid) }}" method="POST" onsubmit="return confirm('Are you sure?');">
                                                     @csrf
                                                     @method('DELETE')

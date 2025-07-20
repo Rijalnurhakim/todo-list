@@ -4,18 +4,19 @@ namespace App\Http\Controllers;
 
 use App\Models\Task;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class DashboardController extends Controller
 {
     public function index()
     {
-
-        return view('dashboard');
-    }
-
-    public function checklist()
-    {
-        $tasks = Task::with('user')->latest()->get();
-        return view('task-checklist', compact('tasks'));
+        if (!Auth::check()) {
+            return redirect()->route('login');
+        }
+        $tasks = Task::with('user')
+            ->where('user_id', Auth::user()->uuid)
+            ->oldest()
+            ->get();
+        return view('dashboard', compact('tasks'));
     }
 }
