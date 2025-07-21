@@ -36,7 +36,7 @@ class ProfileController extends Controller
             $user->save();
 
             AuditLog::create([
-                'user_id' => Auth::id(),
+                'user_id' => Auth::user()->uuid,
                 'action' => 'Username updated',
                 'model_type' => User::class,
                 'model_id' => $user->uuid,
@@ -69,7 +69,7 @@ class ProfileController extends Controller
         $user->delete();
 
         AuditLog::create([
-            'user_id' => Auth::id(),
+            'user_id' => Auth::user()->uuid,
             'action' => 'User deleted',
             'model_type' => User::class,
             'model_id' => $user->uuid,

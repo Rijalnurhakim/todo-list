@@ -14,7 +14,7 @@ class TaskObserver
     public function created(Task $task): void
     {
         AuditLog::create([
-            'user_id' => Auth::id(),
+            'user_id' => Auth::user()->uuid,
             'action' => 'Task created',
             'model_type' => get_class($task),
             'model_id' => $task->uuid,
@@ -37,7 +37,7 @@ class TaskObserver
         // ]);
 
         AuditLog::create([
-            'user_id' => Auth::id(),
+            'user_id' => Auth::user()->uuid,
             'action' => 'Task updated',
             'model_type' => Task::class,
             'model_id' => $task->uuid,
@@ -60,7 +60,7 @@ class TaskObserver
         // ]);
 
         AuditLog::create([
-            'user_id' => Auth::id(),
+            'user_id' => Auth::user()->uuid,
             'action' => 'Task deleted',
             'model_type' => Task::class,
             'model_id' => $task->uuid,

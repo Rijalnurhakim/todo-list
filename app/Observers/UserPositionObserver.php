@@ -14,7 +14,7 @@ class UserPositionObserver
     public function created(UserPosition $userPosition): void
     {
         AuditLog::create([
-            'user_id' => Auth::id(),
+            'user_id' => Auth::user()->uuid,
             'action' => 'User Position created',
             'model_type' => get_class($userPosition),
             'model_id' => $userPosition->uuid,
@@ -37,7 +37,7 @@ class UserPositionObserver
         // ]);
 
         AuditLog::create([
-            'user_id' => Auth::id(),
+            'user_id' => Auth::user()->uuid,
             'action' => 'User Position updated',
             'model_type' => UserPosition::class,
             'model_id' => $userPosition->uuid,
@@ -60,7 +60,7 @@ class UserPositionObserver
         // ]);
 
         AuditLog::create([
-            'user_id' => Auth::id(),
+            'user_id' => Auth::user()->uuid,
             'action' => 'User Position deleted',
             'model_type' => UserPosition::class,
             'model_id' => $userPosition->uuid,
