@@ -18,7 +18,7 @@ class TaskObserver
             'action' => 'Task created',
             'model_type' => get_class($task),
             'model_id' => $task->uuid,
-            'changes' => json_encode($task->getChanges()),
+            'changes' => json_encode($task->getAttributes()),
         ]);
     }
 
@@ -28,10 +28,18 @@ class TaskObserver
     public function updated(Task $task): void
     {
 
-        AuditLog::updated([
+        // AuditLog::updated([
+        //     'user_id' => Auth::id(),
+        //     'action' => 'Task updates',
+        //     'model_type' => get_class($task),
+        //     'model_id' => $task->uuid,
+        //     'changes' => json_encode($task->getChanges()),
+        // ]);
+
+        AuditLog::create([
             'user_id' => Auth::id(),
             'action' => 'Task updated',
-            'model_type' => get_class($task),
+            'model_type' => Task::class,
             'model_id' => $task->uuid,
             'changes' => json_encode($task->getChanges()),
         ]);
@@ -43,12 +51,20 @@ class TaskObserver
     public function deleted(Task $task): void
     {
 
-        AuditLog::updated([
+        // AuditLog::updated([
+        //     'user_id' => Auth::id(),
+        //     'action' => 'Task deleted',
+        //     'model_type' => get_class($task),
+        //     'model_id' => $task->uuid,
+        //     'changes' => json_encode($task->getChanges()),
+        // ]);
+
+        AuditLog::create([
             'user_id' => Auth::id(),
             'action' => 'Task deleted',
-            'model_type' => get_class($task),
+            'model_type' => Task::class,
             'model_id' => $task->uuid,
-            'changes' => json_encode($task->getChanges()),
+            'changes' => json_encode($task->getOriginal()),
         ]);
     }
 

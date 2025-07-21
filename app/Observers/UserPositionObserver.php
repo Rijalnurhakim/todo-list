@@ -18,7 +18,7 @@ class UserPositionObserver
             'action' => 'User Position created',
             'model_type' => get_class($userPosition),
             'model_id' => $userPosition->uuid,
-            'changes' => json_encode($userPosition->getChanges()),
+            'changes' => json_encode($userPosition->getAttributes()),
         ]);
     }
 
@@ -28,10 +28,18 @@ class UserPositionObserver
     public function updated(UserPosition $userPosition): void
     {
 
-        AuditLog::updated([
+        // AuditLog::updated([
+        //     'user_id' => Auth::id(),
+        //     'action' => 'User Position updated',
+        //     'model_type' => get_class($userPosition),
+        //     'model_id' => $userPosition->uuid,
+        //     'changes' => json_encode($userPosition->getChanges()),
+        // ]);
+
+        AuditLog::create([
             'user_id' => Auth::id(),
             'action' => 'User Position updated',
-            'model_type' => get_class($userPosition),
+            'model_type' => UserPosition::class,
             'model_id' => $userPosition->uuid,
             'changes' => json_encode($userPosition->getChanges()),
         ]);
@@ -43,12 +51,20 @@ class UserPositionObserver
     public function deleted(UserPosition $userPosition): void
     {
 
-        AuditLog::updated([
+        // AuditLog::updated([
+        //     'user_id' => Auth::id(),
+        //     'action' => 'User Position deleted',
+        //     'model_type' => get_class($userPosition),
+        //     'model_id' => $userPosition->uuid,
+        //     'changes' => json_encode($userPosition->getChanges()),
+        // ]);
+
+        AuditLog::create([
             'user_id' => Auth::id(),
             'action' => 'User Position deleted',
-            'model_type' => get_class($userPosition),
+            'model_type' => UserPosition::class,
             'model_id' => $userPosition->uuid,
-            'changes' => json_encode($userPosition->getChanges()),
+            'changes' => json_encode($userPosition->getOriginal()),
         ]);
     }
 }

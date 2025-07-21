@@ -18,7 +18,7 @@ class PositionObserver
             'action' => 'Position created',
             'model_type' => get_class($position),
             'model_id' => $position->uuid,
-            'changes' => json_encode($position->getChanges()),
+            'changes' => json_encode($position->getAttributes()),
         ]);
     }
 
@@ -28,10 +28,18 @@ class PositionObserver
     public function updated(Position $position): void
     {
 
-        AuditLog::updated([
+        // AuditLog::updated([
+        //     'user_id' => Auth::id(),
+        //     'action' => 'Position updated',
+        //     'model_type' => get_class($position),
+        //     'model_id' => $position->uuid,
+        //     'changes' => json_encode($position->getChanges()),
+        // ]);
+
+        AuditLog::create([
             'user_id' => Auth::id(),
             'action' => 'Position updated',
-            'model_type' => get_class($position),
+            'model_type' => Position::class,
             'model_id' => $position->uuid,
             'changes' => json_encode($position->getChanges()),
         ]);
@@ -43,12 +51,20 @@ class PositionObserver
     public function deleted(Position $position): void
     {
 
-        AuditLog::updated([
+        // AuditLog::updated([
+        //     'user_id' => Auth::id(),
+        //     'action' => 'Position deleted',
+        //     'model_type' => get_class($position),
+        //     'model_id' => $position->uuid,
+        //     'changes' => json_encode($position->getChanges()),
+        // ]);
+
+        AuditLog::create([
             'user_id' => Auth::id(),
             'action' => 'Position deleted',
-            'model_type' => get_class($position),
+            'model_type' => Position::class,
             'model_id' => $position->uuid,
-            'changes' => json_encode($position->getChanges()),
+            'changes' => json_encode($position->getOriginal()),
         ]);
     }
 }

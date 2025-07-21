@@ -81,15 +81,15 @@ class TaskController extends Controller
         if ($task->isDirty('todo')) {
             $task->save();
 
-            AuditLog::create([
-                'user_id' => Auth::id(),
-                'action' => 'Task updated',
-                'model_type' => Task::class,
-                'model_id' => $task->uuid,
-                'changes' => json_encode($task->getChanges()),
-            ]);
+            // AuditLog::create([
+            //     'user_id' => Auth::id(),
+            //     'action' => 'Task updated',
+            //     'model_type' => Task::class,
+            //     'model_id' => $task->uuid,
+            //     'changes' => json_encode($task->getChanges()),
+            // ]);
 
-            return redirect()->route('tasks.index')->with('status', 'Task updated successfully!');
+            return redirect()->route('dashboard')->with('status', 'Task updated successfully!');
         }
 
         return redirect()->route('tasks.edit', $task->uuid)->with('status', 'No changes made.');
@@ -100,15 +100,15 @@ class TaskController extends Controller
      */
     public function destroy(Request $request, Task $task): RedirectResponse
     {
-        AuditLog::create([
-            'user_id' => Auth::id(),
-            'action' => 'Task deleted',
-            'model_type' => Task::class,
-            'model_id' => $task->uuid,
-            'changes' => json_encode($task->getChanges()),
-        ]);
+        // AuditLog::create([
+        //     'user_id' => Auth::id(),
+        //     'action' => 'Task deleted',
+        //     'model_type' => Task::class,
+        //     'model_id' => $task->uuid,
+        //     'changes' => json_encode($task->getOriginal()),
+        // ]);
         $task->delete();
 
-        return redirect()->route('tasks.index')->with('status', 'Task deleted successfully!');
+        return redirect()->route('dashboard')->with('status', 'Task deleted successfully!');
     }
 }

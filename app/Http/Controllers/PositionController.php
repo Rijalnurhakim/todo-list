@@ -69,19 +69,18 @@ class PositionController extends Controller
      */
     public function update(PositionUpdateRequest $request, Position $position): RedirectResponse
     {
-        // dd($request->all());
         $position->fill($request->validated());
 
         if ($position->isDirty('name')) {
             $position->save();
 
-            AuditLog::create([
-                'user_id' => Auth::id(),
-                'action' => 'Position updated',
-                'model_type' => Position::class,
-                'model_id' => $position->uuid,
-                'changes' => json_encode($position->getChanges()),
-            ]);
+            // AuditLog::create([
+            //     'user_id' => Auth::id(),
+            //     'action' => 'Position updated',
+            //     'model_type' => Position::class,
+            //     'model_id' => $position->uuid,
+            //     'changes' => json_encode($position->getChanges()),
+            // ]);
 
             return redirect()->route('position.index')->with('status', 'Position updated successfully!');
         }
@@ -96,13 +95,13 @@ class PositionController extends Controller
     {
         $position->delete();
 
-        AuditLog::create([
-            'user_id' => Auth::id(),
-            'action' => 'Position deleted',
-            'model_type' => Position::class,
-            'model_id' => $position->uuid,
-            'changes' => json_encode($position->getChanges()),
-        ]);
+        // AuditLog::create([
+        //     'user_id' => Auth::id(),
+        //     'action' => 'Position deleted',
+        //     'model_type' => Position::class,
+        //     'model_id' => $position->uuid,
+        //     'changes' => json_encode($position->getOriginal()),
+        // ]);
 
         return redirect()->route('position.index')->with('status', 'Position deleted successfully!');
     }

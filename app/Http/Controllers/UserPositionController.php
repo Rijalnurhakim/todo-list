@@ -96,13 +96,13 @@ class UserPositionController extends Controller
         if ($userPosition->isDirty('user_id') || $userPosition->isDirty('position_id')) {
             $userPosition->save();
 
-            AuditLog::create([
-                'user_id' => Auth::id(),
-                'action' => 'User Position updated',
-                'model_type' => UserPosition::class,
-                'model_id' => $userPosition->uuid,
-                'changes' => json_encode($userPosition->getChanges()),
-            ]);
+            // AuditLog::create([
+            //     'user_id' => Auth::id(),
+            //     'action' => 'User Position updated',
+            //     'model_type' => UserPosition::class,
+            //     'model_id' => $userPosition->uuid,
+            //     'changes' => json_encode($userPosition->getChanges()),
+            // ]);
 
             return redirect()->route('user-position.index')->with('status', 'User Position updated successfully!');
         }
@@ -115,8 +115,15 @@ class UserPositionController extends Controller
      */
     public function destroy(Request $request, UserPosition $userPosition): RedirectResponse
     {
-
         $userPosition->delete();
+
+        // AuditLog::create([
+        //     'user_id' => Auth::id(),
+        //     'action' => 'User Position deleted',
+        //     'model_type' => UserPosition::class,
+        //     'model_id' => $userPosition->uuid,
+        //     'changes' => json_encode($userPosition->getOriginal()),
+        // ]);
 
         return redirect()->route('user-position.index')->with('status', 'User Position deleted successfully!');
     }

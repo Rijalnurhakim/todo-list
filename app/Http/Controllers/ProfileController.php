@@ -56,7 +56,7 @@ class ProfileController extends Controller
     /**
      * Delete the user's account.
      */
-    public function destroy(Request $request): RedirectResponse
+    public function destroy(Request $request, User $user): RedirectResponse
     {
         $request->validateWithBag('userDeletion', [
             'password' => ['required', 'current_password'],
@@ -67,6 +67,14 @@ class ProfileController extends Controller
         Auth::logout();
 
         $user->delete();
+
+        AuditLog::create([
+            'user_id' => Auth::id(),
+            'action' => 'User deleted',
+            'model_type' => User::class,
+            'model_id' => $user->uuid,
+            'changes' => json_encode($user->getOriginal()),
+        ]);
 
         $request->session()->invalidate();
         $request->session()->regenerateToken();
